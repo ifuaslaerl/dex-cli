@@ -1,0 +1,5 @@
+#This file tells setuptools to include non-Python files
+
+#This is CRITICAL for including your templates
+
+graft dex/templates
