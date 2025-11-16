@@ -33,7 +33,13 @@ def setup_config_dir():
     default="default",
     help="Template folder name at \"~/.config/dex/templates\"."
 )
-def new_command(project_name, template):
+@click.option(
+    "--public",
+    "-pub",
+    default=False,
+    help="Set visibility to new repository on github."
+)
+def new_command(project_name, template, public):
     """
     Create new project [PROJECT_NAME] by template.
     """
@@ -58,6 +64,27 @@ def new_command(project_name, template):
         click.secho(f"Creating \"{project_name}\ with template" + \
             f"{template}\"...")
         shutil.copytree(source_path, dest_path)
+
+        click.secho("Initializing new git repository.", fg="cyan")
+        subprocess.run(["git", "init"], cwd=dest_path, check=True, capture_output=True)
+        subprocess.run(["git", "add", "."], cwd=dest_path, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial Commit from dex-cli"],
+                       cwd=dest_path, check=True, capture_output=True)
+
+        click.secho(f"Creating github repository named {project_name}.", fg="cyan")
+
+        public = "--public" if public else "--private"
+
+        subprocess.run(["gh", "repo", "create", project_name, public, "-s", ".", "--push"],
+                        cwd=dest_path, check=True, capture_output=True)
+
+        click.secho(f"Sucessfully created {project_name}.", fg="green")
+        click.secho(f"View it on GitHub: https://github.com/{gitConfig.getUser().getName()}/{project_name}", fg="white")
+
+    except subprocess.CalledProcessError as e:
+        click.secho(f"\nA Command Failed", fg="red")
+        click.secho(f"STDOUT: {e.stdout.decode()}", fg="yellow")
+        click.secho(f"STDERR: {e.stderr.decode()}". fg="red")
 
     except Exception as e:
         click.secho(f"An unexpected error has ocurred: {e}", fg="red")
