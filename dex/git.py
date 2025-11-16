@@ -116,3 +116,18 @@ class GitManager:
             click.secho("Please ensure both are installed and in your PATH.", fg="yellow")
         except Exception as e:
             click.secho(f"An unexpected error has ocurred during Git setup: {e}", fg="red")
+
+    def delete_remote_repo(self, full_repo_name: str):
+        """
+        Deletes a remote repository from GitHub.
+        Uses '--yes' to bypass the 'gh' interactive prompt.
+        """
+        click.secho(f"Sending 'gh repo delete {full_repo_name}' command...", fg="cyan", dim=True)
+        # This will use raise_on_error=True by default
+        self._run_command(
+            "gh",
+            "repo",
+            "delete",
+            full_repo_name,
+            "--yes" # Bypasses the gh confirmation, as we have our own
+        )

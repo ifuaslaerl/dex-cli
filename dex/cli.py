@@ -3,6 +3,7 @@
 import click
 from .commands.cmd_new import new_command
 from .commands.cmd_config import config_command
+from .commands.cmd_delete import delete_command
 
 @click.group()
 def cli():
@@ -13,8 +14,9 @@ def cli():
     """
     pass
 
-cli.add_command(new_command, name="new")
 cli.add_command(config_command, name="config")
+cli.add_command(new_command, name="new")
+cli.add_command(delete_command, name="delete")
 
 if __name__ == "__main__":
     cli()
