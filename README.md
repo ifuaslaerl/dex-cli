@@ -1,3 +1,5 @@
+# dex-cli
+
 Esse projeto foi feito para gerenciar meus muitos projetos iniciados
 e incabados. A ferramenta foi feita para automatizar a criação de projetos
 e acompanhar o seu desenvolvimento de forma automatica.
@@ -15,5 +17,3 @@ além disso, inclui os arquivos: main.py, README.md
 
 dex list:
 Lista os projetos iniciados e informa características deles.
-
-# dex-cli

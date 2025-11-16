@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dex-cli"
+dynamic = ["version"]
+description = "The dex is a high-tech electronic encyclopedia that developers have with them to record data on the varios species of projects they work during their journey."
+authors = [
+	{ name = "Luís Rafael Sena", email = "luisrafaelsna@gmail.com"}
+]
+readme = "README.md"
+dependencies = [
+	"click",
+]
+requires-python = ">= 3.8"
+
+[project.scripts]
+dex = "dex.cli:cli"
