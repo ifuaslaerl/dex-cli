@@ -1,107 +1,119 @@
-dex-cli
+# dex-cli
 
-dex-cli is a command-line tool to help you manage and automate the creation of your development projects. It's designed to be a high-tech "dex" that records and bootstraps all the "species" of projects you work on.
+**dex-cli** is a command-line tool designed to help developers record, bootstrap, and manage their development projects—akin to a high-tech "dex" recording data on various project "species".
 
-This tool automates project setup by copying templates, initializing a local Git repository, and creating a private remote repository on GitHub.
+This tool automates the tedious parts of starting a new project: copying templates, initializing a local Git repository, and instantly creating a private remote repository on GitHub.
 
-Project Status
+## Features
 
-[x] Core: Project bootstrapping (dex new)
+- **⚡ Template-Based Creation**: Instantly scaffold new projects using pre-defined templates (e.g., C++ projects, Competitive Programming setups).
+- **🤖 Automatic Git Initialization**: Initializes a Git repository and authors the first commit automatically.
+- **☁️ GitHub Integration**: Uses the GitHub CLI (`gh`) to create a **private** remote repository and push your initial code immediately.
+- **⚙️ Configuration Management**: Remembers your identity and GitHub username to streamline repository creation.
+- **🗑️ Project Deletion**: Safely (but destructively) removes local project directories and their corresponding remote GitHub repositories.
 
-[x] Core: Configuration management (dex config)
+## Prerequisites
 
-[x] Core: Project deletion (dex delete)
+To use `dex-cli`, you must have the following tools installed and configured:
 
-[ ] Planned: List and manage existing projects (e.g., dex list)
+1. **Python 3.9+**
+2. **Git**: For version control operations.
+3. **GitHub CLI (`gh`)**: For remote repository management.
+   - Install: [cli.github.com](https://cli.github.com/)
+   - Authenticate: `gh auth login`
+   - **Important**: To use the delete command, you must grant the delete scope:
+```bash
+gh auth refresh -s delete_repo
+```
 
-Features
+## Installation
 
-Template-Based Creation: Create new projects from pre-defined templates.
+Since this project uses `pyproject.toml`, you can install it directly from the source directory:
 
-Automatic Git Init: Automatically initializes a new Git repository for your project.
+```bash
+# From the root of the project directory
+pip install .
+```
 
-GitHub Integration: Automatically creates a private GitHub repository and pushes the initial commit (requires gh CLI).
+*Note: If/when published to PyPI, you would use `pip install dex-cli`.*
 
-Configuration Management: Remembers your Git and GitHub details for automatic authoring and repo linking.
+## Configuration
 
-Installation
+Before creating your first project, you should configure `dex` with your Git details. This ensures your commits are authored correctly and repositories are created under the correct GitHub user.
 
-(This section is a guide for how you would document the installation once it's on PyPI).
-
-pip install dex-cli
-
-
-Requirements
-
-For the tool to function, you must have the following command-line tools installed and configured on your system:
-
-Git: For initializing the local repository.
-
-GitHub CLI (gh): For creating and deleting the remote repository.
-
-You must be authenticated: gh auth login
-
-You must add the delete_repo scope for the delete command to work: gh auth refresh -s delete_repo
-
-Commands
-
+```bash
 dex config
+```
 
-Before you start, run the config command to tell dex about your Git/GitHub user. This will be used to author your commits and link your GitHub account.
+This command will:
+1.  Read your global `.gitconfig` for defaults.
+2.  Prompt you to set/update your **Name**, **Email**, and **GitHub Username**.
+3.  Save these details to `~/.config/dex/git_info.json`.
 
-dex config
+## Usage
 
+### 1. Create a New Project
 
-This command will first check your global git config for user.name and user.email. It will then prompt you to set or update this information, along with your GitHub username (which is used for generating repository URLs).
+The `new` command scaffolds a project, initializes Git, and creates a remote repo.
 
-Your information is saved locally in ~/.config/dex/git_info.json.
+```bash
+dex new <project-name> [options]
+```
 
-dex new <project-name>
+**Options:**
+- `-t, --template <name>`: Specify a template to use. Defaults to `default`.
 
-This is the main command for creating a new project.
+**Examples:**
 
-dex new my-awesome-project
+```bash
+# Create a basic project using the default template
+dex new my-app
 
+# Create a C++ project with Makefile structure
+dex new my-game-engine --template cpp_project
 
-When you run this, dex-cli will:
+# Create a setup for competitive programming
+dex new codeforces-round-900 --template contest
+```
 
-Copy the default template into a new folder named my-awesome-project.
+### 2. Available Templates
 
-Initialize a Git repository in that folder.
+`dex-cli` comes with bundled templates that are installed to `~/.config/dex/templates/` on the first run.
 
-Make the first commit, using the author info from your dex config.
+- **default**: A basic README structure.
+- **cpp_project**: A standard C++ setup with a `src/` folder, `Makefile`, and `.gitignore`.
+- **contest**: A specialized setup for competitive programming containing debug headers (`.debug.h`) and template files (`a.cpp` through `g.cpp`) pre-configured for testing.
 
-Use the gh CLI to create a new private repository on GitHub named my-awesome-project.
+*You can add your own custom templates by creating new folders in `~/.config/dex/templates/`.*
 
-Push the initial commit to the remote repository.
+### 3. Delete a Project
 
-Options
+This command permanently deletes a project's local directory and its remote GitHub repository.
 
---template <template_name> or -t <template_name>:
-Use a specific template from your ~/.config/dex/templates directory.
+```bash
+dex delete <project-name> [options]
+```
 
-dex new my-cpp-project --template cpp
+**Options:**
+- `--local-only`: Only delete the local directory.
+- `--remote-only`: Only delete the remote GitHub repository.
 
+**Safety:**
+To prevent accidents, this command requires two confirmations, including typing the full name of the repository (e.g., `username/project-name`).
 
-dex delete <project-name>
+## Directory Structure
 
-This command deletes a project's local directory and its remote GitHub repository. This is a highly destructive and irreversible action.
+`dex-cli` stores your user configuration and templates locally:
 
-dex delete my-awesome-project
+```text
+~/.config/dex/
+├── git_info.json       # User configuration
+└── templates/          # Directory containing all project templates
+    ├── default/
+    ├── contest/
+    └── cpp_project/
+```
 
+## License
 
-The command will force you to confirm the action twice, including typing out the full repository name (e.g., username/my-awesome-project) to proceed.
-
-Options
-
---local-only: Only deletes the local project folder.
-
---remote-only: Only deletes the remote GitHub repository.
-
-Templates
-
-dex-cli is a template-based system. On its first run, it will install a default template into your user configuration directory.
-
-Template Location: ~/.config/dex/templates/
-
-You can add your own templates by simply creating a new folder in this directory. For example, if you create ~/.config/dex/templates/cpp, you can then use it with the --template cpp option.
+[Add LICENSE later]
