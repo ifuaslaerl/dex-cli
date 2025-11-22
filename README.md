@@ -62,7 +62,3 @@ This command will:
     ├── contest/
     └── cpp_project/
 ```
-
-## License
-
-[MIT LICENSE]
