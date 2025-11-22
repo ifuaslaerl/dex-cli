@@ -131,3 +131,16 @@ class GitManager:
             full_repo_name,
             "--yes" # Bypasses the gh confirmation, as we have our own
         )
+
+    def clone_repo(self, full_repo_name: str, dest_path: Path):
+        """
+        Clones a GitHub repository to a specific destination path.
+        """
+        # gh repo clone <repository> <directory>
+        self._run_command(
+            "gh",
+            "repo",
+            "clone",
+            full_repo_name,
+            str(dest_path)
+        )
