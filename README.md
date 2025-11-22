@@ -116,4 +116,4 @@ To prevent accidents, this command requires two confirmations, including typing 
 
 ## License
 
-[Add LICENSE later]
+[MIT LICENSE]
