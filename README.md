@@ -50,57 +50,6 @@ This command will:
 2.  Prompt you to set/update your **Name**, **Email**, and **GitHub Username**.
 3.  Save these details to `~/.config/dex/git_info.json`.
 
-## Usage
-
-### 1. Create a New Project
-
-The `new` command scaffolds a project, initializes Git, and creates a remote repo.
-
-```bash
-dex new <project-name> [options]
-```
-
-**Options:**
-- `-t, --template <name>`: Specify a template to use. Defaults to `default`.
-
-**Examples:**
-
-```bash
-# Create a basic project using the default template
-dex new my-app
-
-# Create a C++ project with Makefile structure
-dex new my-game-engine --template cpp_project
-
-# Create a setup for competitive programming
-dex new codeforces-round-900 --template contest
-```
-
-### 2. Available Templates
-
-`dex-cli` comes with bundled templates that are installed to `~/.config/dex/templates/` on the first run.
-
-- **default**: A basic README structure.
-- **cpp_project**: A standard C++ setup with a `src/` folder, `Makefile`, and `.gitignore`.
-- **contest**: A specialized setup for competitive programming containing debug headers (`.debug.h`) and template files (`a.cpp` through `g.cpp`) pre-configured for testing.
-
-*You can add your own custom templates by creating new folders in `~/.config/dex/templates/`.*
-
-### 3. Delete a Project
-
-This command permanently deletes a project's local directory and its remote GitHub repository.
-
-```bash
-dex delete <project-name> [options]
-```
-
-**Options:**
-- `--local-only`: Only delete the local directory.
-- `--remote-only`: Only delete the remote GitHub repository.
-
-**Safety:**
-To prevent accidents, this command requires two confirmations, including typing the full name of the repository (e.g., `username/project-name`).
-
 ## Directory Structure
 
 `dex-cli` stores your user configuration and templates locally:
