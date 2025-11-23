@@ -6,11 +6,11 @@ This tool automates the tedious parts of starting a new project: copying templat
 
 ## Features
 
-- **⚡ Template-Based Creation**: Instantly scaffold new projects using pre-defined templates (e.g., C++ projects, Competitive Programming setups).
-- **🤖 Automatic Git Initialization**: Initializes a Git repository and authors the first commit automatically.
-- **☁️ GitHub Integration**: Uses the GitHub CLI (`gh`) to create a **private** remote repository and push your initial code immediately.
-- **⚙️ Configuration Management**: Remembers your identity and GitHub username to streamline repository creation.
-- **🗑️ Project Deletion**: Safely (but destructively) removes local project directories and their corresponding remote GitHub repositories.
+- **Template-Based Creation**: Instantly scaffold new projects using pre-defined templates (e.g., C++ projects, Competitive Programming setups).
+- **Automatic Git Initialization**: Initializes a Git repository and authors the first commit automatically.
+- **GitHub Integration**: Uses the GitHub CLI (`gh`) to create a **private** remote repository and push your initial code immediately.
+- **Configuration Management**: Remembers your identity and GitHub username to streamline repository creation.
+- **Project Deletion**: Safely (but destructively) removes local project directories and their corresponding remote GitHub repositories.
 
 ## Prerequisites
 
